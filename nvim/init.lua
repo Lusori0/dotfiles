@@ -67,6 +67,15 @@ require("nvim-tree").setup()
 vim.keymap.set('n', '<leader>t', ':NvimTreeFindFileToggle<CR>')
 
 -- TELESCOPE -----------------------------
+require "telescope".setup({
+  defaults = {
+    borderchars = {"", "", "", "", "", "", "", ""},
+    layout_config = {
+      height = 100,
+      width = 400
+    }
+  }
+})
 local telescope = require('telescope')
 local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
