@@ -1,0 +1,20 @@
+green='\[\e[0;92m\]'
+red='\[\e[0;91m\]'
+blue='\[\e[0;94m\]'
+cyan='\[\e[0;96m\]'
+purple='\[\e[0;95m\]'
+yellow='\[\e[1;93m\]'
+magenta='\[\e[1;91m\]'
+NC='\[\e[0m\]'
+force_color_prompt=yes
+
+parse_git_branch() {
+	git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ ( \1)/'
+}
+
+export PS1="$red[$purple\u$green@$blue\h$red\$(parse_git_branch) $yellow\w$red]$NC\$ "
+
+alias nv="nvim"
+alias ls="ls -lah --color=auto"
+alias grep="grep --color=auto"
+alias ff="cd ~ && cd \$(find * -type d | fzf)"

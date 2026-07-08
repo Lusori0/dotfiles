@@ -16,11 +16,7 @@ require("lazy").setup({
   'nvim-tree/nvim-tree.lua',
   'echasnovski/mini.nvim',
   'nvim-treesitter/nvim-treesitter',
-  -- 'williamboman/mason.nvim',
-  -- 'williamboman/mason-lspconfig.nvim',
-  -- 'neovim/nvim-lspconfig',
   'lewis6991/gitsigns.nvim',
-  'folke/flash.nvim',
   'nvim-orgmode/orgmode',
   {'chomosuke/typst-preview.nvim', lazy = false, opts = {}},
   'stevearc/oil.nvim',
@@ -29,6 +25,11 @@ require("lazy").setup({
   "ibhagwan/fzf-lua",
   "0xzhzh/fzf-org.nvim",
   "kdheepak/lazygit.nvim",
+  {
+    'folke/flash.nvim',
+    opts = {modes = {char = {keys = {}}}},
+    keys = {{ "f", mode= {"n", "x", "o"}, function() require("flash").jump() end}}
+  },
 })
 
 require('mini.basics').setup()
@@ -39,7 +40,7 @@ vim.o.relativenumber  = true
 vim.o.tabstop         = 2 -- How many spaces is a tab
 vim.o.shiftwidth      = 2 -- How far to indent with <>
 vim.o.expandtab       = true -- Use spaces for tab
-vim.o.smartindent = true
+vim.o.smartindent     = true
 
 -- VIM KEYMAPS ---------------------------
 --copy paste cut
@@ -72,7 +73,6 @@ require("snacks").setup({
   indent = {
     enabled = true,
     animate = {enabled = false},
-    -- scope = {enabled = false},
   },
   toggle = {
     enabled = true
@@ -112,9 +112,6 @@ vim.keymap.set('n', '<leader>ff', FzfLua.files, {})
 vim.keymap.set('n', '<leader>fs', FzfLua.live_grep_native, {})
 vim.keymap.set('n', '<leader>fgs', FzfLua.git_status, {})
 
--- FLASH ---------------------------------
-vim.keymap.set('n', '<leader>g', function() require("flash").jump() end, {})
-
 -- MINI ----------------------------------
 require('mini.surround').setup()
 require('mini.icons').setup()
@@ -137,21 +134,13 @@ vim.keymap.set('n', '<leader>sj', require('treesj').toggle)
 require('gitsigns').setup()
 
 -- TREESITTER ----------------------------
-require'nvim-treesitter.configs'.setup {
+require('nvim-treesitter').setup {
   ensure_installed = {"c", "cpp", "lua", "query", "python", "go", "html", "css", "javascript", "puppet", "terraform", "yaml", "odin", "typst", "bash", "json", "helm"},
   highlight = {
     enable = true,
     additional_vim_regex_highlighting = false,
   },
 }
-
--- LSP -----------------------------------
--- require("mason").setup()
--- require("mason-lspconfig").setup {
---   ensure_installed = {"ols"}
--- }
--- local lspconfig = require("lspconfig")
--- lspconfig.ols.setup {}
 
 
 -- ORGMODE --------------------------------
