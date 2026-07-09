@@ -14,7 +14,12 @@ parse_git_branch() {
 
 export PS1="$red[$purple\u$green@$blue\h$red\$(parse_git_branch) $yellow\w$red]$NC\$ "
 
+stty -ixon
+shopt -s autocd
+
+eval "$(fzf --bash)"
+
 alias nv="nvim"
-alias ls="ls -lah --color=auto"
+alias ls="ls -lahN --color=auto --group-directories-first"
 alias grep="grep --color=auto"
 alias ff="cd ~ && cd \$(find * -type d | fzf)"
