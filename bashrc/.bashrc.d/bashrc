@@ -15,6 +15,7 @@ parse_git_branch() {
 export PS1="$red[$purple\u$green@$blue\h$red\$(parse_git_branch) $yellow\w$red]$NC\$ "
 
 stty -ixon
+set -o vi
 shopt -s autocd
 
 eval "$(fzf --bash)"
@@ -23,3 +24,7 @@ alias nv="nvim"
 alias ls="ls -lahN --color=auto --group-directories-first"
 alias grep="grep --color=auto"
 alias ff="cd ~ && cd \$(find * -type d | fzf)"
+
+typst() {
+    podman run --rm --security-opt label=disable --userns=keep-id -v "$(pwd):/work" -w /work ghcr.io/typst/typst:latest "$@"
+}
