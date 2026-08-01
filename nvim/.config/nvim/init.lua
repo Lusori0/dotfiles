@@ -118,6 +118,7 @@ require('mini.icons').setup()
 require('mini.tabline').setup()
 require('mini.statusline').setup()
 require('mini.trailspace').setup()
+require('mini.align').setup({mappings = {start = '<leader>a'}})
 require('mini.completion').setup {
   delay = {
     completion = 0,
