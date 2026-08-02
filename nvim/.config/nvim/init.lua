@@ -24,7 +24,6 @@ require("lazy").setup({
   'Wansmer/treesj',
   "ibhagwan/fzf-lua",
   "0xzhzh/fzf-org.nvim",
-  "kdheepak/lazygit.nvim",
   {
     'folke/flash.nvim',
     opts = {modes = {char = {keys = {}}}},
@@ -79,6 +78,7 @@ require("snacks").setup({
   },
 })
 vim.keymap.set('n', '<leader>q', Snacks.bufdelete.delete)
+vim.keymap.set('n', '<leader>lg', Snacks.lazygit.open)
 
 -- Oil ----------------------------------
 require("oil").setup({keymaps = {["<Esc>"] = { "actions.parent", mode = "n" },}})
@@ -99,9 +99,6 @@ Snacks.toggle.new({
 
 -- TELESCOPE -----------------------------
 require("fzf-lua").setup({
-  keymap = {
-    fzf = { ["ctrl-q"] = "select-all+accept"},
-  },
   winopts = {
     fullscreen = true,
     border = "none",
@@ -113,6 +110,7 @@ vim.keymap.set('n', '<leader>fs', FzfLua.live_grep_native, {})
 vim.keymap.set('n', '<leader>fgs', FzfLua.git_status, {})
 
 -- MINI ----------------------------------
+require('mini.ai').setup()
 require('mini.surround').setup()
 require('mini.icons').setup()
 require('mini.tabline').setup()
@@ -177,9 +175,6 @@ require('orgmode').setup({
 require("fzf-org").setup()
 vim.keymap.set('n', '<leader>of', require("fzf-org").orgmode, {})
 vim.keymap.set('n', '<leader>or', require("fzf-org").refile_to_headline, {})
-
---- LazyGit
-vim.keymap.set('n', '<leader>lg', ':LazyGit<CR>')
 
 -- Custom functions and commands
 
