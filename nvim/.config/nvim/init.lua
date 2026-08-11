@@ -15,7 +15,7 @@ require("lazy").setup({
   'morhetz/gruvbox',
   'nvim-tree/nvim-tree.lua',
   'echasnovski/mini.nvim',
-  {'nvim-treesitter/nvim-treesitter', lazy = false, config = function() require("nvim-treesitter.configs").setup({
+  {'nvim-treesitter/nvim-treesitter', lazy = false, config = function() require("nvim-treesitter.config").setup({
     ensure_installed = {
       "c",
       "cpp",
