@@ -15,12 +15,36 @@ require("lazy").setup({
   'morhetz/gruvbox',
   'nvim-tree/nvim-tree.lua',
   'echasnovski/mini.nvim',
-  'nvim-treesitter/nvim-treesitter',
+  {'nvim-treesitter/nvim-treesitter', lazy = false, config = function() require("nvim-treesitter.configs").setup({
+    ensure_installed = {
+      "c",
+      "cpp",
+      "lua",
+      "query",
+      "python",
+      "go",
+      "html",
+      "css",
+      "javascript",
+      "typescript",
+      "puppet",
+      "terraform",
+      "yaml",
+      "odin",
+      "typst",
+      "bash",
+      "json",
+      "helm",
+      "templ",
+      "gleam",
+    },
+    highlight = { enable = true, additional_vim_regex_highlighting = false},
+  }) end},
   'lewis6991/gitsigns.nvim',
   'nvim-orgmode/orgmode',
   {'chomosuke/typst-preview.nvim', lazy = false, opts = {}},
   'stevearc/oil.nvim',
-  'folke/snacks.nvim',
+  {'folke/snacks.nvim', opts = {indent = {enabled = true, animate = {enabled = false}},toggle = {enabled = true}, lazygit = {configure = true}}},
   'Wansmer/treesj',
   "ibhagwan/fzf-lua",
   "0xzhzh/fzf-org.nvim",
@@ -68,15 +92,6 @@ require("nvim-tree").setup()
 vim.keymap.set('n', '<leader>t', ':NvimTreeFindFileToggle<CR>')
 
 -- Snacks ------------------------------
-require("snacks").setup({
-  indent = {
-    enabled = true,
-    animate = {enabled = false},
-  },
-  toggle = {
-    enabled = true
-  },
-})
 vim.keymap.set('n', '<leader>q', Snacks.bufdelete.delete)
 vim.keymap.set('n', '<leader>lg', Snacks.lazygit.open)
 
@@ -131,15 +146,6 @@ vim.keymap.set('n', '<leader>sj', require('treesj').toggle)
 
 -- GITSIGNS ------------------------------
 require('gitsigns').setup()
-
--- TREESITTER ----------------------------
-require('nvim-treesitter').setup {
-  ensure_installed = {"c", "cpp", "lua", "query", "python", "go", "html", "css", "javascript", "puppet", "terraform", "yaml", "odin", "typst", "bash", "json", "helm"},
-  highlight = {
-    enable = true,
-    additional_vim_regex_highlighting = false,
-  },
-}
 
 
 -- ORGMODE --------------------------------
