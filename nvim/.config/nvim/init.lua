@@ -64,6 +64,8 @@ vim.o.tabstop         = 2 -- How many spaces is a tab
 vim.o.shiftwidth      = 2 -- How far to indent with <>
 vim.o.expandtab       = true -- Use spaces for tab
 vim.o.smartindent     = true
+vim.o.list            = true
+vim.o.listchars       = "tab:><"
 
 -- VIM KEYMAPS ---------------------------
 --copy paste cut
