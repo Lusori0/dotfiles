@@ -87,7 +87,7 @@ vim.keymap.set('n', '<leader>sv', ':vsplit<CR>')
 -- buffer navigation
 vim.keymap.set('n', '<leader>i', ':bnext<CR>')
 vim.keymap.set('n', '<leader>u', ':bprevious<CR>')
-vim.keymap.set('t', '<C-h>', '<C-\\><C-n>')
+vim.keymap.set('t', '<ESC>', '<C-\\><C-n>')
 
 -- NVIMTREE -----------------------------
 require("nvim-tree").setup()
