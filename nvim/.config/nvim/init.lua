@@ -66,6 +66,7 @@ vim.o.expandtab       = true -- Use spaces for tab
 vim.o.smartindent     = true
 vim.o.list            = true
 vim.o.listchars       = "tab:><"
+vim.o.colorcolumn     = "80"
 
 -- VIM KEYMAPS ---------------------------
 --copy paste cut
