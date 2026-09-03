@@ -28,3 +28,7 @@ alias ff="cd ~ && cd \$(find * -type d | fzf)"
 typst() {
     podman run --rm --security-opt label=disable --userns=keep-id -v "$(pwd):/work" -w /work ghcr.io/typst/typst:latest "$@"
 }
+
+typst-kill() {
+  podman container ls | grep typst | awk '{ print $1 }' | xargs -n1 podman container kill
+}
