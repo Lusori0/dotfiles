@@ -79,8 +79,7 @@ vim.api.nvim_create_autocmd("FileType", {
 -- SNACKS ------------------------------
 require("snacks").setup({
   indent = {enabled = true, animate = {enabled = false}},
-  toggle = {enabled = true},
-  lazygit = {configure = true}
+  lazygit = {configure = false, win = {backdrop = false}}
 })
 vim.keymap.set('n', '<leader>q', function() Snacks.bufdelete.delete() end)
 vim.keymap.set('n', '<leader>lg', function() Snacks.lazygit.open() end)
@@ -100,7 +99,6 @@ require("fzf-lua").setup({
 })
 vim.keymap.set('n', '<leader>ff', FzfLua.files, {})
 vim.keymap.set('n', '<leader>fs', FzfLua.live_grep_native, {})
-vim.keymap.set('n', '<leader>fgs', FzfLua.git_status, {})
 
 -- MINI ----------------------------------
 require('mini.ai').setup()
