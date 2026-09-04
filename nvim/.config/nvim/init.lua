@@ -1,72 +1,40 @@
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable",
-    lazypath,
-  })
-end
-vim.opt.rtp:prepend(lazypath)
+vim.api.nvim_create_autocmd('PackChanged', { callback = function(ev)
+  local name, kind = ev.data.spec.name, ev.data.kind
+  if name == 'nvim-treesitter' and kind == 'update' then
+    if not ev.data.active then vim.cmd.packadd('nvim-treesitter') end
+    vim.cmd('TSUpdate')
+  end
+end })
 
-require("lazy").setup({
-  'morhetz/gruvbox',
-  'nvim-tree/nvim-tree.lua',
-  'echasnovski/mini.nvim',
-  {'nvim-treesitter/nvim-treesitter', lazy = false, config = function() require("nvim-treesitter.config").setup({
-    ensure_installed = {
-      "c",
-      "cpp",
-      "lua",
-      "query",
-      "python",
-      "go",
-      "html",
-      "css",
-      "javascript",
-      "typescript",
-      "puppet",
-      "terraform",
-      "yaml",
-      "odin",
-      "typst",
-      "bash",
-      "json",
-      "helm",
-      "templ",
-      "gleam",
-    },
-    highlight = { enable = true, additional_vim_regex_highlighting = false},
-  }) end},
-  'lewis6991/gitsigns.nvim',
-  'nvim-orgmode/orgmode',
-  {'chomosuke/typst-preview.nvim', lazy = false, opts = {}},
-  'stevearc/oil.nvim',
-  {'folke/snacks.nvim', opts = {indent = {enabled = true, animate = {enabled = false}},toggle = {enabled = true}, lazygit = {configure = true}}},
-  'Wansmer/treesj',
-  "ibhagwan/fzf-lua",
-  "0xzhzh/fzf-org.nvim",
-  {
-    'folke/flash.nvim',
-    opts = {modes = {char = {keys = {}}}},
-    keys = {{ "f", mode= {"n", "x", "o"}, function() require("flash").jump() end}}
-  },
+vim.pack.add({
+  'https://github.com/morhetz/gruvbox',
+  'https://github.com/nvim-tree/nvim-tree.lua',
+  'https://github.com/echasnovski/mini.nvim',
+  'https://github.com/nvim-treesitter/nvim-treesitter',
+  'https://github.com/lewis6991/gitsigns.nvim',
+  'https://github.com/nvim-orgmode/orgmode',
+  'https://github.com/chomosuke/typst-preview.nvim',
+  'https://github.com/stevearc/oil.nvim',
+  'https://github.com/folke/snacks.nvim',
+  'https://github.com/Wansmer/treesj',
+  "https://github.com/ibhagwan/fzf-lua",
+  "https://github.com/0xzhzh/fzf-org.nvim",
+  'https://github.com/folke/flash.nvim',
 })
 
 require('mini.basics').setup()
 
 -- VIM SETTINGS --------------------------
-local ok, _ = pcall(vim.cmd, 'colorscheme gruvbox')
-vim.o.relativenumber  = true
-vim.o.tabstop         = 2 -- How many spaces is a tab
-vim.o.shiftwidth      = 2 -- How far to indent with <>
-vim.o.expandtab       = true -- Use spaces for tab
-vim.o.smartindent     = true
-vim.o.list            = true
-vim.o.listchars       = "tab:><"
-vim.o.colorcolumn     = "80"
+pcall(vim.cmd, 'colorscheme gruvbox')
+vim.api.nvim_set_hl(0, "NormalFloat", { link = "Normal" })
+vim.opt.relativenumber  = true
+vim.opt.tabstop         = 2    -- How many spaces is a tab
+vim.opt.shiftwidth      = 2    -- How far to indent with <>
+vim.opt.expandtab       = true -- Use spaces for tab
+vim.opt.smartindent     = true
+vim.opt.list            = true
+vim.opt.listchars       = "tab:><"
+vim.opt.colorcolumn     = "80"
 
 -- VIM KEYMAPS ---------------------------
 --copy paste cut
@@ -94,26 +62,33 @@ vim.keymap.set('t', '<ESC>', '<C-\\><C-n>')
 require("nvim-tree").setup()
 vim.keymap.set('n', '<leader>t', ':NvimTreeFindFileToggle<CR>')
 
--- Snacks ------------------------------
-vim.keymap.set('n', '<leader>q', Snacks.bufdelete.delete)
-vim.keymap.set('n', '<leader>lg', Snacks.lazygit.open)
+-- TREESITTER --------------------------
+local ts = require("nvim-treesitter")
+
+local languages = { "c", "cpp", "lua", "query", "python", "go", "html", "css", "javascript", "typescript", "puppet", "terraform", "yaml", "odin", "typst", "bash", "json", "helm", "gleam" }
+ts.setup()
+ts.install(languages)
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = languages,
+  callback = function()
+    vim.treesitter.start()
+  end,
+})
+
+-- SNACKS ------------------------------
+require("snacks").setup({
+  indent = {enabled = true, animate = {enabled = false}},
+  toggle = {enabled = true},
+  lazygit = {configure = true}
+})
+vim.keymap.set('n', '<leader>q', function() Snacks.bufdelete.delete() end)
+vim.keymap.set('n', '<leader>lg', function() Snacks.lazygit.open() end)
 
 -- Oil ----------------------------------
-require("oil").setup({keymaps = {["<Esc>"] = { "actions.parent", mode = "n" },}})
-Snacks.toggle.new({
-  name = "Oil",
-  id = "toggle_oil",
-  get = function()
-    return vim.bo.filetype == 'oil'
-  end,
-  set = function(state)
-    if state then
-      vim.cmd('Oil')
-    else
-      require("oil.actions").close.callback()
-    end
-  end,
-}):map("<leader>e")
+local oil = require("oil")
+oil.setup({keymaps = {["<Esc>"] = { "actions.parent", mode = "n" },}, float = {border="rounded"}})
+vim.keymap.set("n", "<leader>e", function() oil.toggle_float() end)
 
 -- TELESCOPE -----------------------------
 require("fzf-lua").setup({
@@ -143,13 +118,18 @@ require('mini.completion').setup {
   }
 }
 
+-- FLASH -------------------------------
+local flash = require("flash")
+flash.setup({modes = {char = {keys = {}}}})
+vim.keymap.set({ "n", "x", "o" }, "f", function() flash.jump() end)
+
 -- TREESJ -------------------------------
-require('treesj').setup({use_default_keymaps=false})
-vim.keymap.set('n', '<leader>sj', require('treesj').toggle)
+local treesj = require('treesj')
+treesj.setup({use_default_keymaps=false, max_join_length=math.huge})
+vim.keymap.set('n', '<leader>sj', treesj.toggle)
 
 -- GITSIGNS ------------------------------
 require('gitsigns').setup()
-
 
 -- ORGMODE --------------------------------
 require('orgmode').setup({
@@ -181,11 +161,10 @@ require('orgmode').setup({
   },
 })
 
-require("fzf-org").setup()
-vim.keymap.set('n', '<leader>of', require("fzf-org").orgmode, {})
-vim.keymap.set('n', '<leader>or', require("fzf-org").refile_to_headline, {})
-
--- Custom functions and commands
+local fzf_org = require("fzf-org")
+fzf_org.setup()
+vim.keymap.set('n', '<leader>of', fzf_org.orgmode, {})
+vim.keymap.set('n', '<leader>or', fzf_org.refile_to_headline, {})
 
 -- Run kustomization
 vim.api.nvim_create_user_command("Kust", function()
