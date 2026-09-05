@@ -90,16 +90,21 @@ oil.setup({keymaps = {["<Esc>"] = { "actions.parent", mode = "n" },}, float = {b
 vim.keymap.set("n", "<leader>e", function() oil.toggle_float() end)
 
 -- TELESCOPE -----------------------------
-require("fzf-lua").setup({
+fzf_lua = require("fzf-lua")
+fzf_lua.setup({
   winopts = {
     fullscreen = true,
     border = "none",
     preview = { border = "none"},
   },
 })
-vim.keymap.set('n', '<leader>ff', FzfLua.files, {})
-vim.keymap.set('n', '<leader>fs', FzfLua.live_grep_native, {})
+vim.keymap.set('n', '<leader>ff', function()
+  fzf_lua.files({ rg_opts = "--color=never --files --hidden --glob '!.*/*'" })
+end)
 
+vim.keymap.set('n', '<leader>fs', function()
+  fzf_lua.live_grep_native({ rg_opts = "--column --line-number --no-heading --color=always --smart-case --max-columns=4096 --hidden --glob '!.*/*' -e" })
+end)
 -- MINI ----------------------------------
 require('mini.ai').setup()
 require('mini.surround').setup()
