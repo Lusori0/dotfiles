@@ -8,7 +8,7 @@ end })
 
 vim.pack.add({
   'https://github.com/morhetz/gruvbox',
-  'https://github.com/nvim-tree/nvim-tree.lua',
+  -- 'https://github.com/nvim-tree/nvim-tree.lua',
   'https://github.com/echasnovski/mini.nvim',
   'https://github.com/nvim-treesitter/nvim-treesitter',
   'https://github.com/lewis6991/gitsigns.nvim',
@@ -20,6 +20,7 @@ vim.pack.add({
   "https://github.com/ibhagwan/fzf-lua",
   "https://github.com/0xzhzh/fzf-org.nvim",
   'https://github.com/folke/flash.nvim',
+  "https://github.com/Julian/lean.nvim",
 })
 
 require('mini.basics').setup()
@@ -59,8 +60,8 @@ vim.keymap.set('n', '<leader>u', ':bprevious<CR>')
 vim.keymap.set('t', '<ESC>', '<C-\\><C-n>')
 
 -- NVIMTREE -----------------------------
-require("nvim-tree").setup()
-vim.keymap.set('n', '<leader>t', ':NvimTreeFindFileToggle<CR>')
+-- require("nvim-tree").setup()
+-- vim.keymap.set('n', '<leader>t', ':NvimTreeFindFileToggle<CR>')
 
 -- TREESITTER --------------------------
 local ts = require("nvim-treesitter")

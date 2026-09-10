@@ -20,6 +20,10 @@
       "rev": "5d15b2765f59754d7ac263c88a0f6e3e58124951",
       "src": "https://github.com/morhetz/gruvbox"
     },
+    "lean.nvim": {
+      "rev": "5a2c1dff42ca1055dc8977f1ad3217e42ce72659",
+      "src": "https://github.com/Julian/lean.nvim"
+    },
     "mini.nvim": {
       "rev": "9d01f392b33fb2ba36fbc87fc0bf4453e63ffb0a",
       "src": "https://github.com/echasnovski/mini.nvim"
