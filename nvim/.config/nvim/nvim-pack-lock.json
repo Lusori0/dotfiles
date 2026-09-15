@@ -13,7 +13,7 @@
       "src": "https://github.com/0xzhzh/fzf-org.nvim"
     },
     "gitsigns.nvim": {
-      "rev": "5be654f2232c10ddcad19c1607a67b6b4b78fc29",
+      "rev": "f2421c550618d257048afa650413d9e542ddbe67",
       "src": "https://github.com/lewis6991/gitsigns.nvim"
     },
     "gruvbox": {
@@ -25,15 +25,11 @@
       "src": "https://github.com/Julian/lean.nvim"
     },
     "mini.nvim": {
-      "rev": "9d01f392b33fb2ba36fbc87fc0bf4453e63ffb0a",
+      "rev": "25f25d3e6661d942323e56711096de1850d814ec",
       "src": "https://github.com/echasnovski/mini.nvim"
     },
-    "nvim-tree.lua": {
-      "rev": "b2aadda94b107480c48e548d6db51c6840b7b33c",
-      "src": "https://github.com/nvim-tree/nvim-tree.lua"
-    },
     "nvim-treesitter": {
-      "rev": "427e9222363d07c32d6db6169e4049c28d58d141",
+      "rev": "d4d59cb369da46b95699bd2200efbcffc6dadb3b",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
     "oil.nvim": {

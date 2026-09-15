@@ -8,7 +8,6 @@ end })
 
 vim.pack.add({
   'https://github.com/morhetz/gruvbox',
-  -- 'https://github.com/nvim-tree/nvim-tree.lua',
   'https://github.com/echasnovski/mini.nvim',
   'https://github.com/nvim-treesitter/nvim-treesitter',
   'https://github.com/lewis6991/gitsigns.nvim',
@@ -35,7 +34,12 @@ vim.opt.expandtab       = true -- Use spaces for tab
 vim.opt.smartindent     = true
 vim.opt.list            = true
 vim.opt.listchars       = "tab:><"
-vim.opt.colorcolumn     = "80"
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "typst", "latex", "text", "markdown", "org"},
+  callback = function()
+    vim.opt_local.colorcolumn = "80"  -- or your preferred column
+  end,
+})
 
 -- VIM KEYMAPS ---------------------------
 --copy paste cut
@@ -58,10 +62,6 @@ vim.keymap.set('n', '<leader>sv', ':vsplit<CR>')
 vim.keymap.set('n', '<leader>i', ':bnext<CR>')
 vim.keymap.set('n', '<leader>u', ':bprevious<CR>')
 vim.keymap.set('t', '<ESC>', '<C-\\><C-n>')
-
--- NVIMTREE -----------------------------
--- require("nvim-tree").setup()
--- vim.keymap.set('n', '<leader>t', ':NvimTreeFindFileToggle<CR>')
 
 -- TREESITTER --------------------------
 local ts = require("nvim-treesitter")
