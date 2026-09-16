@@ -27,6 +27,7 @@ require('mini.basics').setup()
 -- VIM SETTINGS --------------------------
 pcall(vim.cmd, 'colorscheme gruvbox')
 vim.api.nvim_set_hl(0, "NormalFloat", { link = "Normal" })
+vim.opt.termguicolors   = true -- Force truecolors, fixes tmux over ssh
 vim.opt.relativenumber  = true
 vim.opt.tabstop         = 2    -- How many spaces is a tab
 vim.opt.shiftwidth      = 2    -- How far to indent with <>
