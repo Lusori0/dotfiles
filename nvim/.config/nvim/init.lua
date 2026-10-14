@@ -67,7 +67,7 @@ vim.keymap.set('t', '<ESC>', '<C-\\><C-n>')
 -- TREESITTER --------------------------
 local ts = require("nvim-treesitter")
 
-local languages = { "c", "cpp", "lua", "query", "python", "go", "html", "css", "javascript", "typescript", "puppet", "terraform", "yaml", "odin", "typst", "bash", "json", "helm", "gleam" }
+local languages = { "c", "cpp", "lua", "query", "python", "go", "html", "css", "javascript", "typescript", "puppet", "terraform", "yaml", "odin", "typst", "bash", "json", "helm", "gleam", "snakemake" }
 ts.setup()
 ts.install(languages)
 
@@ -114,6 +114,8 @@ require('mini.icons').setup()
 require('mini.tabline').setup()
 require('mini.statusline').setup()
 require('mini.trailspace').setup()
+local minisj = require('mini.splitjoin')
+minisj.setup()
 require('mini.align').setup({mappings = {start = '<leader>a'}})
 require('mini.completion').setup {
   delay = {
@@ -129,9 +131,22 @@ flash.setup({modes = {char = {keys = {}}}})
 vim.keymap.set({ "n", "x", "o" }, "f", function() flash.jump() end)
 
 -- TREESJ -------------------------------
+local langs = require'treesj.langs'['presets']
+langs["snakemake"] = require('treesj.langs.utils').merge_preset(require('treesj.langs.python'), {})
 local treesj = require('treesj')
-treesj.setup({use_default_keymaps=false, max_join_length=math.huge})
-vim.keymap.set('n', '<leader>sj', treesj.toggle)
+treesj.setup({use_default_keymaps=false, max_join_length=math.huge, langs=langs})
+
+vim.api.nvim_create_autocmd({ 'FileType' }, {
+  pattern = '*',
+  callback = function()
+    local opts = { buffer = true }
+    if langs[vim.bo.filetype] then
+      vim.keymap.set('n', '<leader>sj', treesj.toggle, opts)
+    else
+      vim.keymap.set('n', '<leader>sj', minisj.toggle, opts)
+    end
+  end,
+})
 
 -- GITSIGNS ------------------------------
 require('gitsigns').setup()
