@@ -20,6 +20,9 @@ vim.pack.add({
   "https://github.com/0xzhzh/fzf-org.nvim",
   'https://github.com/folke/flash.nvim',
   "https://github.com/Julian/lean.nvim",
+  "https://github.com/mason-org/mason.nvim",
+  "https://github.com/neovim/nvim-lspconfig",
+  "https://github.com/mason-org/mason-lspconfig.nvim",
 })
 
 require('mini.basics').setup()
@@ -34,6 +37,7 @@ vim.opt.shiftwidth      = 2    -- How far to indent with <>
 vim.opt.expandtab       = true -- Use spaces for tab
 vim.opt.smartindent     = true
 vim.opt.list            = true
+vim.opt.updatetime      = 600
 vim.opt.listchars       = "tab:><"
 vim.api.nvim_create_autocmd("FileType", {
   pattern = { "typst", "latex", "text", "markdown", "org"},
@@ -150,6 +154,27 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
 
 -- GITSIGNS ------------------------------
 require('gitsigns').setup()
+
+-- LSP Stuff -----------------------------
+
+require("mason").setup({firewall = {enabled = true }})
+require("mason-lspconfig").setup({ensure_installed = {
+  "harper_ls"
+}})
+
+vim.lsp.config("harper_ls", {
+  filetypes = { "typst", "latex", "text", "markdown", "org"},
+})
+
+vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+  group = vim.api.nvim_create_augroup("float_diagnostic", { clear = true }),
+  callback = function()
+    vim.diagnostic.open_float(nil, {
+      focus = false,
+      border = "rounded",
+    })
+  end,
+})
 
 -- ORGMODE --------------------------------
 require('orgmode').setup({
