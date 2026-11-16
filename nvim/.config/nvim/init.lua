@@ -166,6 +166,8 @@ vim.lsp.config("harper_ls", {
   filetypes = { "typst", "latex", "text", "markdown", "org"},
 })
 
+vim.keymap.set("n", "<leader>ca", function() vim.lsp.buf.code_action() end)
+
 vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
   group = vim.api.nvim_create_augroup("float_diagnostic", { clear = true }),
   callback = function()
